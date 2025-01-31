@@ -47,7 +47,6 @@
                     inputField.value = ''; // Очищаем поле ввода
                 } else {
                     console.error("WebSocket is not open. Cannot send message.");
-                    // Можно здесь тоже попытаться переподключиться
                     setTimeout(connectWebSocket, 1000);
                 }
             }
