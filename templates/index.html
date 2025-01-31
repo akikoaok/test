@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+    <script>
+        let socket;
+
+        // Функция для подключения WebSocket
+        function connectWebSocket() {
+            socket = new WebSocket("ws://localhost:8000/ws");
+
+            socket.onopen = () => {
+                console.log("WebSocket connected");
+            };
+
+            socket.onclose = () => {
+                console.log("WebSocket disconnected. Reconnecting...");
+                setTimeout(connectWebSocket, 1000); // Попытка переподключиться через 1 секунду
+            };
+
+            socket.onmessage = (event) => {
+                // Обработка полученных данных
+                const messages = JSON.parse(event.data);
+                const messageList = document.getElementById('message-list');
+                messageList.innerHTML = ''; // Очистить список сообщений
+                messages.forEach((msg) => {
+                    const messageItem = document.createElement('li');
+                    messageItem.textContent = `${msg.id}. ${msg.content}`;
+                    messageList.appendChild(messageItem);
+                });
+            };
+        }
+
+        // Подключаемся к WebSocket при загрузке страницы
+        window.onload = connectWebSocket;
+
+        // Функция для отправки сообщения на сервер
+        const sendMessage = () => {
+            const inputField = document.getElementById('message-input');
+            const message = inputField.value;
+
+            if (message.trim() !== '') {
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({ "content": message }));
+                    inputField.value = ''; // Очищаем поле ввода
+                } else {
+                    console.error("WebSocket is not open. Cannot send message.");
+                    // Можно здесь тоже попытаться переподключиться
+                    setTimeout(connectWebSocket, 1000);
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Messages</h1>
+    <ul id="message-list"></ul>
+    <form action="javascript:void(0);">
+        <input type="text" id="message-input" placeholder="Type a message" />
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+</body>
+</html>

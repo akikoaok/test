@@ -1,0 +1,21 @@
+# Игнорируем виртуальное окружение
+venv/
+env/
+
+# Файлы конфигурации и чувствительные данные
+*.env
+config.json
+secrets.json
+__pycache__/
+*.pyc
+*.pyo
+
+# Логи и кеши
+*.log
+*.sqlite3
+db.sqlite3
+
+# Настройки IDE и редакторов
+.vscode/
+.idea/
+*.iml
