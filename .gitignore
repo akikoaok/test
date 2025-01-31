@@ -2,7 +2,7 @@
 venv/
 env/
 
-# Файлы конфигурации и чувствительные данные
+# Файлы конфигурации
 *.env
 config.json
 secrets.json
@@ -10,7 +10,7 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Логи и кеши
+# Логи и кеш
 *.log
 *.sqlite3
 db.sqlite3

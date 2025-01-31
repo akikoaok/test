@@ -7,7 +7,7 @@
     <script>
         let socket;
 
-        // Функция для подключения WebSocket
+        // Функция подключения WebSocket
         function connectWebSocket() {
             socket = new WebSocket("ws://localhost:8000/ws");
 
@@ -17,14 +17,14 @@
 
             socket.onclose = () => {
                 console.log("WebSocket disconnected. Reconnecting...");
-                setTimeout(connectWebSocket, 1000); // Попытка переподключиться через 1 секунду
+                setTimeout(connectWebSocket, 1000); // Переподключение через 1 секунду
             };
 
             socket.onmessage = (event) => {
                 // Обработка полученных данных
                 const messages = JSON.parse(event.data);
                 const messageList = document.getElementById('message-list');
-                messageList.innerHTML = ''; // Очистить список сообщений
+                messageList.innerHTML = ''; // Очистить сообщения
                 messages.forEach((msg) => {
                     const messageItem = document.createElement('li');
                     messageItem.textContent = `${msg.id}. ${msg.content}`;
@@ -36,7 +36,7 @@
         // Подключаемся к WebSocket при загрузке страницы
         window.onload = connectWebSocket;
 
-        // Функция для отправки сообщения на сервер
+        // Функция отправки сообщения на сервер
         const sendMessage = () => {
             const inputField = document.getElementById('message-input');
             const message = inputField.value;
@@ -44,10 +44,9 @@
             if (message.trim() !== '') {
                 if (socket.readyState === WebSocket.OPEN) {
                     socket.send(JSON.stringify({ "content": message }));
-                    inputField.value = ''; // Очищаем поле ввода
+                    inputField.value = ''; // Очистить поле ввода
                 } else {
                     console.error("WebSocket is not open. Cannot send message.");
-                    // Можно здесь тоже попытаться переподключиться
                     setTimeout(connectWebSocket, 1000);
                 }
             }

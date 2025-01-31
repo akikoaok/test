@@ -28,7 +28,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         pass
 
-# Отправка HTML страницы с клиентским кодом
+# Отправка HTML страницы
 @app.get("/")
 async def get(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
