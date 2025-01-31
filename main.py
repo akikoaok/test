@@ -5,7 +5,6 @@ import json
 
 app = FastAPI()
 
-# Создаем объект для рендеринга шаблонов
 templates = Jinja2Templates(directory="templates")
 
 # Храним сообщения в памяти
@@ -28,7 +27,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         pass
 
-# Отправка HTML страницы с клиентским кодом
+# Отправка HTML страницы
 @app.get("/")
 async def get(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
