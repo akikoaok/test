@@ -5,7 +5,6 @@ import json
 
 app = FastAPI()
 
-# Создаем объект для рендеринга шаблонов
 templates = Jinja2Templates(directory="templates")
 
 # Храним сообщения в памяти
